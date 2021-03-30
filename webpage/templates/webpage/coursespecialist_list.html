@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>All Course Specialists</h1>
+
+  {% if coursespecialist_list %}
+    <table class="table table-borderd table-sm ">
+      {% for specialist in coursespecialist_list %}
+        <tr>
+          <td>
+            <img src="{{ specialist.photo.url }}" width="30" height="30"/>{{ specialist.name }}
+          </td>
+          <td>
+            {% if user.get_username == 'admin' %}
+              <a href="{% url 'course-specialist-update' specialist.pk %}">update</a> | <a href="{% url 'course-specialist-delete' specialist.pk %}">delete</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+    <a href="{% url 'home-page' %}">Back</a> | <a href="{% url 'course-specialist-create' %}">Create Course Specialist</a>
+  {% else %}
+    <p>There are no course speciaslits.</p>
+  {% endif %}       
+{% endblock %}

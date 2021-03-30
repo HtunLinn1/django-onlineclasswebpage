@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>All Courses</h1>
+
+  {% if course_list %}
+    <table class="table table-borderd table-sm ">
+      {% for course in course_list %}
+        <tr>
+          <td>
+            <img src="{{ course.photo.url }}" width="30" height="30"/>{{ course.name }}
+          </td>
+          <td>
+            {% if user.get_username == 'admin' %}
+              <a href="{% url 'course-update' course.pk %}">update</a> | <a href="{% url 'course-delete' course.pk %}">delete</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+    <a href="{% url 'home-page' %}">Back</a> | <a href="{% url 'course-create' %}">Create Course Specialist</a>
+  {% else %}
+    <p>There are no course speciaslits.</p>
+  {% endif %}       
+{% endblock %}
