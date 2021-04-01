@@ -1,11 +1,14 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+  <br/>
+  <h3>Create User Account</h3><hr><br/>
   <form action="" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <table>
       {{ form.as_table }}
       </table>
       <input type="submit" value="Submit" />
-  </form>
+  </form><br/>
+  <a href="{% url 'home-page' %}">Back</a>
 {% endblock %}

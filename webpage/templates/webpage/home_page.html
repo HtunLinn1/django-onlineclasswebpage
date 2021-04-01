@@ -3,6 +3,7 @@
 {% block title %}<title>Online Class Page</title>{% endblock %}
 
 {% block content %}
+  <br/>
   {% if user.is_authenticated %}
     {% if user.is_superuser == 1 %}
       <h1>Adminstrator Page</h1><hr>
@@ -14,17 +15,19 @@
         <img src="{{ course_specialist.photo.url }}" width="30" height="30"/>
         <span style="padding-right:50px; font-weight:bold; font-size:20px;">{{ course_specialist.name }}</span>
         <span style="font-size:12px;">{{post.post_date}}</span><br/>
-        {{ post.content }}<br/>
-        <img src="{{ post.photo.url }}" width="300" height="150"/>
+        <p style="padding-left:35px;">{{ post.content }}</p>
+        <p style="padding-left:35px;"><img src="{{ post.photo.url }}" width="300" height="150"/></p>
         {% if user == post.post_creator.name %}
-          <a href="{% url 'post-update' post.pk %}">Update</a> |
-          <a href="{% url 'post-delete' post.pk %}">Delete</a>
+          <span style="padding-left:35px;">
+            <a href="{% url 'post-update' post.pk %}">Update</a> |
+            <a href="{% url 'post-delete' post.pk %}">Delete</a>
+          </span>
         {% endif %}
         <br/><br/>
       {% endfor %}
     {% else %}
       {% if user == course_specialist.name %}
-        <h1>Course Specialist {{ course_specialist.name }} Page</h1><br/>
+        <h1>Course Specialist {{ course_specialist.name }} Page</h1><hr><br/>
         <h3>Course List</h3>
         <br/>
         {% for course in course_specialist.course_set.all %}
@@ -50,15 +53,14 @@
   {% else %}
     <h1>Welcome from IT online class</h1><hr><br>
     <a href="{% url 'create-account' %}">Create Account</a> | 
-    <a href="{% url 'register' %}">Register Student</a> |
     <a href="{% url 'course-list' %}">Course List</a> <br><br>
 
     {% for post in course_specialist.post_set.all %}
       <img src="{{ course_specialist.photo.url }}" width="30" height="30"/>
       <span style="padding-right:50px; font-weight:bold; font-size:20px;">{{ course_specialist.name }}</span>
       <span style="font-size:12px;">{{post.post_date}}</span><br/>
-      {{ post.content }}<br/>
-      <img src="{{ post.photo.url }}" width="300" height="150"/>
+      <p style="padding-left:35px;">{{ post.content }}</p>
+      <p style="padding-left:35px;"><img src="{{ post.photo.url }}" width="300" height="150"/></p>
       <br/><br/>
     {% endfor %}
   {% endif %}

@@ -23,7 +23,7 @@
                 <a href="{% url 'course-update' course.pk %}">update</a> | <a href="{% url 'course-delete' course.pk %}">delete</a>
               {% endif %}
             {% else %}
-              <a href="{% url 'register' %}">Register</a>
+              <a href="{% url 'register-with-course' course.pk %}">Register</a>
             {% endif %}
           </td>
         </tr>

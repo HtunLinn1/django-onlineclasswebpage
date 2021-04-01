@@ -6,7 +6,7 @@ import datetime
 
 class CourseSpecialist(models.Model):
   """ course specialist """
-  name = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name="course specialist")
+  name = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, verbose_name="course specialist")
   photo = models.ImageField(upload_to='images/', default='defo')
   bio = models.TextField(max_length=1000, help_text="Enter your bio details here.")
   
@@ -31,6 +31,7 @@ class Course(models.Model):
   
   class Meta:
     ordering = ["name"]
+    unique_together = (('name'),)
 
   def get_absolute_url(self):
     pass
@@ -63,6 +64,7 @@ class RegisterStudent(models.Model):
   
   class Meta:
     ordering = ["start_date"]
+    unique_together = (('name', 'course'),)
 
   def get_absolute_url(self):
     pass

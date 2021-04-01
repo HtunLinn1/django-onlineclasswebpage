@@ -1,7 +1,8 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>All Course Specialists</h1>
+  <br/>
+  <h1>All Course Specialists</h1><hr>
 
   {% if coursespecialist_list %}
     <table class="table table-borderd table-sm ">
@@ -11,7 +12,7 @@
             <img src="{{ specialist.photo.url }}" width="30" height="30"/>{{ specialist.name }}
           </td>
           <td>
-            {% if user.is_superuser == 1 %}
+            {% if user.is_superuser == 1 and specialist.name_id != user.id  %}
               <a href="{% url 'course-specialist-update' specialist.pk %}">update</a> | <a href="{% url 'course-specialist-delete' specialist.pk %}">delete</a>
             {% endif %}
           </td>

@@ -42,6 +42,9 @@
             {% else %}
               <span style="font-size: 5px;">
                 <b>no-answered</b>
+                {% if course.course_specialist.name == request.user %}
+                  <a href="{% url 'qus-answer' qus_id=qus.id course_id=course.id %}">Answer</a>
+                {% endif %}
               </span>
             {% endif %}
             <br/>

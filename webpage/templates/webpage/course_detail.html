@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>{{course.name}}</h1><br/>
+  <h1>{{course.name}}</h1><hr><br/>
 
   <p><img src="{{ course.course_specialist.photo.url }}" width="30" height="30"/>
     <a href="{% url 'course-specialist-detail' course.course_specialist.id %}">{{course.course_specialist}}</a></p><br/>

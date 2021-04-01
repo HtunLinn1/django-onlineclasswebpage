@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, DeleteView
-from webpage.forms import AdminPostForm, PostForm, CourseSpecialistForm, CourseForm, RegisterStudentForm, UserForm, CourseQuestionForm
+from webpage.forms import AdminPostForm, PostForm, CourseSpecialistForm, CourseForm, UserForm, CourseQuestionForm
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -188,23 +188,25 @@ def create_account(request):
 
   return render(request, 'webpage/user_form.html', context)
 
-# register
-def register_student(request):
-  if request.method == 'POST':
-    form = RegisterStudentForm(request.POST, request.FILES)
-    if form.is_valid():
-      form.save()
-
-      return HttpResponseRedirect(reverse('home-page'))
-
-  else:
-    form = RegisterStudentForm()
-
-  context = {
-    'form': form,
-  }
-
-  return render(request, 'webpage/register_form.html', context)
+# registe student
+class RegisterStudentCreate(LoginRequiredMixin, CreateView):
+  model = RegisterStudent
+  fields = ['name', 'course', 'start_date']
+  def get_initial(self, **kwargs):
+    print(len(self.kwargs))
+    if len(self.kwargs) > 0:
+      initial = super().get_initial()
+      name = self.request.user
+      course = Course.objects.get(pk=self.kwargs["pk"])
+      initial['course'] = course
+      initial['name'] = name
+      return initial
+    else:
+      initial = super().get_initial()
+      name = self.request.user
+      initial['name'] = name
+      return initial
+  success_url = reverse_lazy('home-page')
 
 # course post list
 def course_post_list(request, pk):
@@ -269,4 +271,9 @@ def course_question_create(request, pk):
 def question_delete(request, course_id, qus_id):
   query = CourseQuestion.objects.get(pk=qus_id)
   query.delete()
+  return HttpResponseRedirect(reverse('course-post-list', kwargs={'pk': course_id}))
+
+# answer question
+def question_answer(request, course_id, qus_id):
+  CourseQuestion.objects.filter(pk=qus_id).update(is_answered=1)
   return HttpResponseRedirect(reverse('course-post-list', kwargs={'pk': course_id}))

@@ -47,11 +47,6 @@ class UserForm(forms.Form):
     password_data = self.cleaned_data['password']
     return password_data
 
-class RegisterStudentForm(forms.ModelForm):
-  class Meta:
-    model = RegisterStudent
-    fields = ['name', 'course', 'start_date']
-
 class CourseQuestionForm(forms.Form):
   question = forms.CharField(widget=forms.Textarea, help_text="Enter your question")
 
