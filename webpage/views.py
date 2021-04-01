@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from .models import CourseSpecialist, Course, Post, RegisterStudent, User, CourseQuestion
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, DeleteView
 from webpage.forms import AdminPostForm, PostForm, CourseSpecialistForm, CourseForm, RegisterStudentForm, UserForm, CourseQuestionForm
@@ -165,7 +166,7 @@ def course_delete(request, pk):
   query.delete()
   return HttpResponseRedirect(reverse('course-list'))
 
-# register
+# create account
 def create_account(request):
   if request.method == 'POST':
     form = UserForm(request.POST, request.FILES)

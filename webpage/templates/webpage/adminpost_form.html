@@ -4,7 +4,7 @@
   {% if course %}
     <h3>Post for {{course.name}}</h3>
   {% endif %}
-  {% if user.get_username == 'admin' %}
+  {% if user.is_superuser == 1 %}
     <h1>Admin Create Post Form</h1>
   {% endif %}
   <form action="" method="post" enctype="multipart/form-data">

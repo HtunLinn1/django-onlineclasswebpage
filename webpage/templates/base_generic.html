@@ -9,16 +9,18 @@
 <body style="background-color:#E5E4E2;">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-2" style="background-color:#A8BED5; padding-top: 25px; padding-bottom: 655px;">
+            <div class="col-sm-2" style="background-color:#A8BED5; padding-top: 25px; padding-bottom: 695px;">
                 {% block sidebar %}
                     <div class="sidebar-nav" style="position: fixed;">
                         {% if user.is_authenticated %}
-                            {{ user.get_username }}<br/><br/>
+                            {{ user.get_username }}<hr><br/>
+                            <a href="{% url 'home-page' %}">Home</a><br/>
                             <a href="{% url 'logout'%}?next={{request.path}}">Logout</a><br/>
                             <a href="{% url 'password_reset' %}">Change Password</a><br/>
                         {% else %}
-                            <a href="{% url 'login'%}?next={{request.path}}">Login</a>
-                        {% endif %} 
+                            <a href="{% url 'home-page' %}">Home</a><br/>
+                            <a href="{% url 'login'%}?next={{request.path}}">Login</a><br/>
+                        {% endif %}
                     </div>
                 {% endblock %}
             </div>

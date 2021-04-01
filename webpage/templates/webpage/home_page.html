@@ -5,7 +5,7 @@
 {% block content %}
   {% if user.is_authenticated %}
     {% if user.is_superuser == 1 %}
-      <h1>Adminstrator Page</h1>
+      <h1>Adminstrator Page</h1><hr>
       <p><a href="{% url 'admin-post-create' %}">Create Post </a> |
         <a href="{% url 'course-specialist-list' %}">Course Specialist List </a> |
         <a href="{% url 'course-list' %}">Course List </a>
@@ -33,7 +33,7 @@
           <span style="padding-left: 30px;">Students : {{ course.registerstudent_set.count }}<br/><br/>
         {% endfor %}
       {% else %}
-        <h1>Student {{ user.get_username }} Page</h1><br/>
+        <h1>Student {{ user.get_username }} Page</h1><hr><br/>
         <h3>Course List</h3>
         <br/>
         {% for student in students %}
@@ -48,7 +48,7 @@
       {% endif %}
     {% endif %}
   {% else %}
-    <h1>Welcome from IT online class</h1><br>
+    <h1>Welcome from IT online class</h1><hr><br>
     <a href="{% url 'create-account' %}">Create Account</a> | 
     <a href="{% url 'register' %}">Register Student</a> |
     <a href="{% url 'course-list' %}">Course List</a> <br><br>

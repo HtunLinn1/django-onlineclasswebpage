@@ -11,7 +11,7 @@
             <img src="{{ specialist.photo.url }}" width="30" height="30"/>{{ specialist.name }}
           </td>
           <td>
-            {% if user.get_username == 'admin' %}
+            {% if user.is_superuser == 1 %}
               <a href="{% url 'course-specialist-update' specialist.pk %}">update</a> | <a href="{% url 'course-specialist-delete' specialist.pk %}">delete</a>
             {% endif %}
           </td>
