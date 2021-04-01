@@ -1,12 +1,8 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  {% if course %}
-    <h3>Post for {{course.name}}</h3>
-  {% endif %}
-  {% if user.get_username == 'admin' %}
-    <h1>Admin Create Post Form</h1>
-  {% endif %}
+  <br/>
+  <b>Question for {{ course.name }}</b><br/><br/>
   <form action="" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <table>

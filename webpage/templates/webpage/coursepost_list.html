@@ -1,0 +1,56 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="container-fluid" style="padding-top: 10px;">
+    <div class="row">
+      <div class="col-sm-9">
+        <h3>{{ course.name }} Course</h3><hr>
+        {% if user == course.course_specialist.name %}
+          <a href="{% url 'specialist-post-create' course.pk %}">{{ course.name }} Post Create</a> |
+        {% else %}
+          <a href="{% url 'course-question-create' course.pk %}">Create Question</a> |
+        {% endif %}
+        <a href="{% url 'home-page' %}">Course List</a> <br/><br/>
+        {% if user.is_superuser == 0 %}
+          {% for post in course.post_set.all %}
+            <img src="{{ post.post_creator.photo.url }}" width="30" height="30"/>
+            <span style="padding-right:50px; font-weight:bold; font-size:20px;">{{ post.post_creator.name }}</span>
+            <span style="font-size:12px;">{{post.post_date}}</span><br/>
+            <p style="word-wrap: break-word; padding-left: 35px;">{{ post.content }}</p>
+            <span style="padding-left: 35px;"><img src="{{ post.photo.url }}" width="300" height="200"/></span>
+            {% if user == post.post_creator.name %}
+              <a href="{% url 'post-update' post.pk %}">Update</a> |
+              <a href="{% url 'post-delete' post.pk %}">Delete</a>
+            {% endif %}
+            <br/><br/>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="col-sm-3" style="padding-top: 10px;">
+        {% if course.coursequestion_set.count > 0 %}
+          <b>Course's Questions</b><hr>
+          {% for qus in course.coursequestion_set.all %}
+            <b>{{ qus.student.name }} :</b>
+            <span style="width: 200px; word-wrap: break-word;">{{ qus }}</span>
+            {% if user == qus.student.name %}
+              <a href="{% url 'qus-delete' qus_id=qus.id course_id=course.id %}">Del</a>
+            {% endif %}
+            {% if qus.is_answered == 1 %}
+              <span style="font-size: 5px;">
+                <b>answered</b>
+              </span>
+            {% else %}
+              <span style="font-size: 5px;">
+                <b>no-answered</b>
+              </span>
+            {% endif %}
+            <br/>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% load static %}
+
+{% endblock %}

@@ -47,7 +47,7 @@ class Post(models.Model):
   post_date = models.DateTimeField(default=datetime.datetime.now())
   
   class Meta:
-    ordering = ["-post_date"]
+    ordering = ["post_date"]
 
   def get_absolute_url(self):
     pass
@@ -70,3 +70,19 @@ class RegisterStudent(models.Model):
   def __str__(self):
     return self.name.username
 
+class CourseQuestion(models.Model):
+  """ Course Question """
+  student = models.ForeignKey(RegisterStudent, verbose_name='student', on_delete=models.SET_NULL, null=True)
+  course = models.ForeignKey(Course, verbose_name='course', on_delete=models.SET_NULL, null=True)
+  question = models.TextField(max_length=1000)
+  is_answered = models.BooleanField(default=False)
+  start_date = models.DateTimeField(default=datetime.datetime.now())
+  
+  class Meta:
+    ordering = ["start_date"]
+
+  def get_absolute_url(self):
+    pass
+
+  def __str__(self):
+    return self.question

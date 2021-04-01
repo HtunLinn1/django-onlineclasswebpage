@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>{{coursespecialist.name}}</h1><br/>
+
+  <img src="{{ coursespecialist.photo.url }}" width="300" height="200"/><br/><br/>
+  <p>{{coursespecialist.bio}}</p><br/><br/>
+  {% if user.is_authenticated and user.is_superuser == 0 %}
+    <a href="{% url 'home-page' %}">Back</a>
+  {% else %}
+    <a href="{% url 'course-list' %}">Back</a>
+  {% endif %}
+{% endblock %}

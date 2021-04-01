@@ -1,7 +1,7 @@
 import datetime
 from django import forms
 from django.forms import ModelForm
-from webpage.models import Post, CourseSpecialist, Course, RegisterStudent, User
+from webpage.models import Post, CourseSpecialist, Course, RegisterStudent, User, CourseQuestion
 
 class AdminPostForm(forms.Form):
   content = forms.CharField(widget=forms.Textarea, help_text="Enter content for post")
@@ -51,3 +51,10 @@ class RegisterStudentForm(forms.ModelForm):
   class Meta:
     model = RegisterStudent
     fields = ['name', 'course', 'start_date']
+
+class CourseQuestionForm(forms.Form):
+  question = forms.CharField(widget=forms.Textarea, help_text="Enter your question")
+
+  def clean_content(self):
+    content_data = self.cleaned_data['question']
+    return content_data

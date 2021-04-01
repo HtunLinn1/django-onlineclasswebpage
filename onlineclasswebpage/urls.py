@@ -23,8 +23,9 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('webpage/', include('webpage.urls')),
-    path('', RedirectView.as_view(url='webpage/')),
-] + static (settings.IMAGE_URL, document_root=settings.IMAGE_ROOT)
+    path('', RedirectView.as_view(url='/webpage/')),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
+    + static(settings.IMAGE_URL, document_root=settings.IMAGE_ROOT)
 
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
