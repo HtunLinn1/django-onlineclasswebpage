@@ -8,7 +8,9 @@
         {% if user == course.course_specialist.name %}
           <a href="{% url 'specialist-post-create' course.pk %}">{{ course.name }} Post Create</a> |
         {% else %}
-          <a href="{% url 'course-question-create' course.pk %}">Create Question</a> |
+          {% if course.post_set.count > 0 %}
+            <a href="{% url 'course-question-create' course.pk %}">Create Question</a> |
+          {% endif %}
         {% endif %}
         <a href="{% url 'home-page' %}">Course List</a> <br/><br/>
         {% if user.is_superuser == 0 %}
