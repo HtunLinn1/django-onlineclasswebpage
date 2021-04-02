@@ -42,10 +42,12 @@
         {% for student in students %}
           <img src="{{ student.course.photo.url }}" width="30" height="30"/>
           <a href="{% url 'course-post-list' student.course.id %}">{{ student.course.name }}</a>
-          <span style="padding-left: 20px;">
-            <img src="{{ student.course.course_specialist.photo.url }}" width="30" height="30"/> 
-            <a href="{% url 'course-specialist-detail' student.course.course_specialist.id %}">{{ student.course.course_specialist }}</a>
-          </span>
+          {% if student.course.course_specialist.id != Null %}
+            <span style="padding-left: 20px;">
+              <img src="{{ student.course.course_specialist.photo.url }}" width="30" height="30"/> 
+              <a href="{% url 'course-specialist-detail' student.course.course_specialist.id %}">{{ student.course.course_specialist }}</a>
+            </span>
+          {% endif %}
           <br/><br/>
         {% endfor %}
       {% endif %}

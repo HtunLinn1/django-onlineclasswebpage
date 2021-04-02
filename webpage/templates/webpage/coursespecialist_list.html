@@ -9,7 +9,9 @@
       {% for specialist in coursespecialist_list %}
         <tr>
           <td>
-            <img src="{{ specialist.photo.url }}" width="30" height="30"/>{{ specialist.name }}
+            <a href="{% url 'course-specialist-detail' specialist.pk %}">
+              <img src="{{ specialist.photo.url }}" width="30" height="30"/>{{ specialist.name }}
+            </a>
           </td>
           <td>
             {% if user.is_superuser == 1 and specialist.name_id != user.id  %}

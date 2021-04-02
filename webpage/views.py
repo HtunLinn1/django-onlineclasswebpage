@@ -162,7 +162,13 @@ def course_update(request, pk):
 
 # course delete
 def course_delete(request, pk):
-  query = Course.objects.get(pk=pk)
+  post_q = Post.objects.filter(course_id=pk)
+  post_q.delete()
+  cq_q = CourseQuestion.objects.filter(course_id=pk)
+  cq_q.delete()
+  cq_q = RegisterStudent.objects.filter(course_id=pk)
+  cq_q.delete()
+  query = Course.objects.filter(pk=pk)
   query.delete()
   return HttpResponseRedirect(reverse('course-list'))
 

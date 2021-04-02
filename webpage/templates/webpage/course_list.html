@@ -1,6 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+  <br/>
   <h1>All Courses</h1><hr>
 
   {% if course_list %}
@@ -13,8 +14,10 @@
               {{ course.name }}
             </a> 
             <span style="padding-left: 50px;">
-              <img src="{{ course.course_specialist.photo.url }}" width="30" height="30"/> 
-              <a href="{% url 'course-specialist-detail' course.course_specialist.pk %}">{{ course.course_specialist.name }}</a>
+              {% if course.course_specialist != Null %}
+                <img src="{{ course.course_specialist.photo.url }}" width="30" height="30"/> 
+                {{ course.course_specialist.name }}
+              {% endif %}
             </span>
           </td>
           <td>
@@ -29,11 +32,11 @@
         </tr>
       {% endfor %}
     </table>
-    <a href="{% url 'home-page' %}">Back</a>  
-    {% if user.is_superuser == 1 %}
-      | <a href="{% url 'course-create' %}">Create Course</a>
-    {% endif %}
   {% else %}
     <p>There are no course speciaslits.</p>
-  {% endif %}       
+  {% endif %}  
+  <a href="{% url 'home-page' %}">Back</a>  
+  {% if user.is_superuser == 1 %}
+    | <a href="{% url 'course-create' %}">Create Course</a>
+  {% endif %}     
 {% endblock %}

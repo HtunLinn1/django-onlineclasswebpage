@@ -2,9 +2,11 @@
 
 {% block content %}
   <h1>{{course.name}}</h1><hr><br/>
-
-  <p><img src="{{ course.course_specialist.photo.url }}" width="30" height="30"/>
-    <a href="{% url 'course-specialist-detail' course.course_specialist.id %}">{{course.course_specialist}}</a></p><br/>
+  {% if course.course_specialist.id != Null %}
+    <p><img src="{{ course.course_specialist.photo.url }}" width="30" height="30"/>
+      <a href="{% url 'course-specialist-detail' course.course_specialist.id %}">{{course.course_specialist}}</a>
+    </p><br/>
+  {% endif %}
   <img src="{{ course.photo.url }}" width="300" height="200"/><br/><br/>
   <p>{{course.description}}</p><br/><br/>
   {% if user.is_authenticated and user.is_superuser == 0 %}
