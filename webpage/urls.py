@@ -6,7 +6,7 @@ from django.conf import settings
 
 urlpatterns = [
   path('', views.home_page, name='home-page'),
-  path('admin-post-create', views.admin_post_create, name='admin-post-create'),
+  path('admin-post-create', views.AdminPostCreate.as_view(), name='admin-post-create'),
   path('<int:pk>/post-delete', views.post_delete, name='post-delete'),
   path('<int:pk>/update', views.post_update, name='post-update'),
 

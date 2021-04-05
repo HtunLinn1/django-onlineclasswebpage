@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, DeleteView
-from webpage.forms import AdminPostForm, PostForm, CourseSpecialistForm, CourseForm, UserForm, CourseQuestionForm
+from webpage.forms import PostForm, CourseSpecialistForm, CourseForm, UserForm, CourseQuestionForm, AdminPostForm
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -26,8 +26,10 @@ def home_page(request):
           'students': students,
         }
     else:
-      user_id = User.objects.get(is_superuser=1)
+      user_id, created = User.objects.get_or_create(is_superuser=1)
       course_specialist = CourseSpecialist.objects.get(name=user_id)
+      # except MyModel.DoesNotExist:
+      #   raise Http404("No MyModel matches the given query.")
       context = {
         'course_specialist': course_specialist,
       }
@@ -35,26 +37,36 @@ def home_page(request):
     return render(request, 'webpage/home_page.html', context=context)
 
 # admin post create
-def admin_post_create(request):
-  if request.method == 'POST':
-    form = AdminPostForm(request.POST, request.FILES)
-    if form.is_valid():
-      admin_post = Post()
-      admin_post.content = form.cleaned_data['content']
-      admin_post.photo = form.cleaned_data['photo']
-      admin_post.post_creator = CourseSpecialist.objects.get(name = request.user.pk)
-      admin_post.save()
+# def admin_post_create(request):
+#   if request.method == 'POST':
+#     form = AdminPostForm(request.POST, request.FILES)
+#     if form.is_valid():
+#       admin_post = Post()
+#       admin_post.content = form.cleaned_data['content']
+#       admin_post.photo = form.cleaned_data['photo']
+#       admin_post.save()
 
-      return HttpResponseRedirect(reverse('home-page'))
+#       return HttpResponseRedirect(reverse('home-page'))
 
-  else:
-    form = AdminPostForm()
+#   else:
+#     form = AdminPostForm()
 
-  context = {
-    'form': form,
-  }
+#   context = {
+#     'form': form,
+#   }
 
-  return render(request, 'webpage/adminpost_form.html', context)
+#   return render(request, 'webpage/adminpost_form.html', context)
+
+class AdminPostCreate(LoginRequiredMixin, CreateView):
+  model = Post
+  fields = ['content', 'photo', 'course', 'post_creator', 'post_date']
+
+  def get_initial(self):
+    initial = super().get_initial()
+    post_creator = CourseSpecialist.objects.get(name=self.request.user)
+    initial['post_creator'] = post_creator
+    return initial
+  success_url = reverse_lazy('home-page')
 
 # admin post delete
 def post_delete(request, pk):
@@ -162,12 +174,6 @@ def course_update(request, pk):
 
 # course delete
 def course_delete(request, pk):
-  post_q = Post.objects.filter(course_id=pk)
-  post_q.delete()
-  cq_q = CourseQuestion.objects.filter(course_id=pk)
-  cq_q.delete()
-  cq_q = RegisterStudent.objects.filter(course_id=pk)
-  cq_q.delete()
   query = Course.objects.filter(pk=pk)
   query.delete()
   return HttpResponseRedirect(reverse('course-list'))
@@ -182,7 +188,6 @@ def create_account(request):
       user.email = form.cleaned_data['email']
       user.set_password(form.cleaned_data['password'])
       user.save()
-
       return HttpResponseRedirect(reverse('home-page'))
 
   else:
@@ -233,7 +238,7 @@ def specialist_post_create(request, pk):
       specialist_post.content = form.cleaned_data['content']
       specialist_post.photo = form.cleaned_data['photo']
       specialist_post.course = Course.objects.get(pk = pk)
-      specialist_post.post_creator = CourseSpecialist.objects.get(name = request.user.pk)
+      specialist_post.post_creator = course.course_specialist
       specialist_post.save()
 
       return HttpResponseRedirect(reverse('course-post-list', kwargs={'pk': pk}))

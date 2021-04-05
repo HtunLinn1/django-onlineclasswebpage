@@ -21,7 +21,7 @@ class CourseSpecialist(models.Model):
 
 class Course(models.Model):
   """ Course """
-  name = models.CharField(max_length=200)
+  name = models.CharField(max_length=200, unique=True)
   course_specialist = models.ForeignKey(CourseSpecialist, on_delete=models.SET_NULL, null=True)
   photo = models.ImageField(upload_to='images/', default='defo')
   duration = models.IntegerField()
@@ -31,7 +31,6 @@ class Course(models.Model):
   
   class Meta:
     ordering = ["name"]
-    unique_together = (('name'),)
 
   def get_absolute_url(self):
     pass
@@ -43,8 +42,8 @@ class Post(models.Model):
   """ Post """
   content = models.TextField(max_length=1000)
   photo = models.ImageField(upload_to='images/', default='defo')
-  course = models.ForeignKey(Course, verbose_name='course', on_delete=models.SET_NULL, null=True)
-  post_creator= models.ForeignKey(CourseSpecialist, on_delete=models.CASCADE)
+  course = models.ForeignKey(Course, verbose_name='course', on_delete=models.CASCADE)
+  post_creator = models.ForeignKey(CourseSpecialist, on_delete=models.CASCADE)
   post_date = models.DateTimeField(default=datetime.datetime.now())
   
   class Meta:
@@ -59,7 +58,7 @@ class Post(models.Model):
 class RegisterStudent(models.Model):
   """ register student """
   name = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-  course = models.ForeignKey(Course, verbose_name='course', on_delete=models.SET_NULL, null=True)
+  course = models.ForeignKey(Course, verbose_name='course', on_delete=models.CASCADE)
   start_date = models.DateTimeField(default=datetime.datetime.now())
   
   class Meta:
@@ -75,7 +74,7 @@ class RegisterStudent(models.Model):
 class CourseQuestion(models.Model):
   """ Course Question """
   student = models.ForeignKey(RegisterStudent, verbose_name='student', on_delete=models.SET_NULL, null=True)
-  course = models.ForeignKey(Course, verbose_name='course', on_delete=models.SET_NULL, null=True)
+  course = models.ForeignKey(Course, verbose_name='course', on_delete=models.CASCADE)
   question = models.TextField(max_length=1000)
   is_answered = models.BooleanField(default=False)
   start_date = models.DateTimeField(default=datetime.datetime.now())

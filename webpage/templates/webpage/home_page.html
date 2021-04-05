@@ -17,7 +17,7 @@
         <span style="font-size:12px;">{{post.post_date}}</span><br/>
         <p style="padding-left:35px;">{{ post.content }}</p>
         <p style="padding-left:35px;"><img src="{{ post.photo.url }}" width="300" height="150"/></p>
-        {% if user == post.post_creator.name %}
+        {% if user == course_specialist.name %}
           <span style="padding-left:35px;">
             <a href="{% url 'post-update' post.pk %}">Update</a> |
             <a href="{% url 'post-delete' post.pk %}">Delete</a>
@@ -55,7 +55,9 @@
   {% else %}
     <h1>Welcome from IT online class</h1><hr><br>
     <a href="{% url 'create-account' %}">Create Account</a> | 
-    <a href="{% url 'course-list' %}">Course List</a> <br><br>
+    <a href="{% url 'course-specialist-list' %}">Course Specialist List</a> | 
+    <a href="{% url 'course-list' %}">Course List</a>
+    <br><br>
 
     {% for post in course_specialist.post_set.all %}
       <img src="{{ course_specialist.photo.url }}" width="30" height="30"/>
@@ -63,7 +65,7 @@
       <span style="font-size:12px;">{{post.post_date}}</span><br/>
       <p style="padding-left:35px;">{{ post.content }}</p>
       <p style="padding-left:35px;"><img src="{{ post.photo.url }}" width="300" height="150"/></p>
-      <br/><br/>
+      <p style="padding-left:35px;"><a href="{% url 'register-with-course' post.course_id %}">Register</a></p>
     {% endfor %}
   {% endif %}
 

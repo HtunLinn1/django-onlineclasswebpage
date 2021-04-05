@@ -4,10 +4,16 @@
   <h1>{{coursespecialist.name}}</h1><hr><br/>
 
   <img src="{{ coursespecialist.photo.url }}" width="300" height="200"/><br/><br/>
-  <p>{{coursespecialist.bio}}</p><br/><br/>
+  <p>{{coursespecialist.bio}}</p><br/>
+  <h4>Specialist's Courses</h4><hr>
+  {% for course in coursespecialist.course_set.all %}
+    <p><a href="{% url 'course-detail' course.pk %}">{{course.name}}</a></p>
+  {% endfor %}
+  <hr>
+  <br/>
   {% if user.is_authenticated and user.is_superuser == 0 %}
     <a href="{% url 'home-page' %}">Back</a>
   {% else %}
-    <a href="{% url 'course-specialist-list' %}">Back</a>
+    <a href="{{ request.META.HTTP_REFERER }}" >Back</a>
   {% endif %}
 {% endblock %}

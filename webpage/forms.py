@@ -1,6 +1,6 @@
 import datetime
 from django import forms
-from django.forms import ModelForm
+from django.forms import ModelForm, ValidationError
 from webpage.models import Post, CourseSpecialist, Course, RegisterStudent, User, CourseQuestion
 
 class AdminPostForm(forms.Form):
@@ -37,6 +37,8 @@ class UserForm(forms.Form):
 
   def clean_username(self):
     username_data = self.cleaned_data['username']
+    if User.objects.filter(username=username_data).exists():
+      raise forms.ValidationError(u'Username "%s" already exists.' % username_data)
     return username_data
 
   def clean_email(self):
