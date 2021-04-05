@@ -9,9 +9,13 @@
   {% endif %}
   <img src="{{ course.photo.url }}" width="300" height="200"/><br/><br/>
   <p>{{course.description}}</p><br/><br/>
-  {% if user.is_authenticated and user.is_superuser == 0 %}
+
+  {% if not user.is_authenticated %}
+    <p><a href="{% url 'register-with-course' course.id %}">Register</a></p>
+  {% endif %}
+  <!-- {% if user.is_authenticated and user.is_superuser == 0 %}
     <a href="{% url 'home-page' %}">Back</a>
   {% else %}
     <a href="{% url 'course-list' %}">Back</a>
-  {% endif %}
+  {% endif %} -->
 {% endblock %}

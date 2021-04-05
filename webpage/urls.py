@@ -32,4 +32,5 @@ urlpatterns = [
   path('course/<int:pk>/course-question-create', views.course_question_create, name='course-question-create'),
   path('course/<int:course_id>/question/<int:qus_id>/delete', views.question_delete, name='qus-delete'),
   path('course/<int:course_id>/question/<int:qus_id>/answer', views.question_answer, name='qus-answer'),
+  path('student/<int:student_id>/course/<int:course_id>/delete', views.course_delete_by_student, name='course-delete-by-student'),
 ]

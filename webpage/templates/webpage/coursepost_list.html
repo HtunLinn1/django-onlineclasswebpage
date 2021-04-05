@@ -8,23 +8,25 @@
         {% if user == course.course_specialist.name %}
           <a href="{% url 'specialist-post-create' course.pk %}">{{ course.name }} Post Create</a> |
         {% else %}
-          {% if course.post_set.count > 0 %}
+          {% if course.post_set.count > 1 %}
             <a href="{% url 'course-question-create' course.pk %}">Create Question</a> |
           {% endif %}
         {% endif %}
         <a href="{% url 'home-page' %}">Course List</a> <br/><br/>
         {% if user.is_superuser == 0 %}
           {% for post in course.post_set.all %}
-            <img src="{{ post.course.course_specialist.photo.url }}" width="30" height="30"/>
-            <span style="padding-right:50px; font-weight:bold; font-size:20px;">{{ post.course.course_specialist.name }}</span>
-            <span style="font-size:12px;">{{post.post_date}}</span><br/>
-            <p style="word-wrap: break-word; padding-left: 35px;">{{ post.content }}</p>
-            <span style="padding-left: 35px;"><img src="{{ post.photo.url }}" width="300" height="200"/></span>
-            {% if user == post.course.course_specialist.name %}
-              <a href="{% url 'post-update' post.pk %}">Update</a> |
-              <a href="{% url 'post-delete' post.pk %}">Delete</a>
+            {% if post.post_creator.name.is_superuser == 0 %}
+              <img src="{{ post.course.course_specialist.photo.url }}" width="30" height="30"/>
+              <span style="padding-right:50px; font-weight:bold; font-size:20px;">{{ post.course.course_specialist.name }}</span>
+              <span style="font-size:12px;">{{post.post_date}}</span><br/>
+              <p style="word-wrap: break-word; padding-left: 35px;">{{ post.content }}</p>
+              <span style="padding-left: 35px;"><img src="{{ post.photo.url }}" width="300" height="200"/></span>
+              {% if user == post.course.course_specialist.name %}
+                <a href="{% url 'post-update' post.pk %}">Update</a> |
+                <a href="{% url 'post-delete' post.pk %}">Delete</a>
+              {% endif %}
+              <br/><br/>
             {% endif %}
-            <br/><br/>
           {% endfor %}
         {% endif %}
       </div>

@@ -44,7 +44,7 @@ class Post(models.Model):
   photo = models.ImageField(upload_to='images/', default='defo')
   course = models.ForeignKey(Course, verbose_name='course', on_delete=models.CASCADE)
   post_creator = models.ForeignKey(CourseSpecialist, on_delete=models.CASCADE)
-  post_date = models.DateTimeField(default=datetime.datetime.now())
+  post_date = models.DateTimeField(default=datetime.datetime.now)
   
   class Meta:
     ordering = ["post_date"]
@@ -59,7 +59,7 @@ class RegisterStudent(models.Model):
   """ register student """
   name = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
   course = models.ForeignKey(Course, verbose_name='course', on_delete=models.CASCADE)
-  start_date = models.DateTimeField(default=datetime.datetime.now())
+  start_date = models.DateTimeField(default=datetime.datetime.now)
   
   class Meta:
     ordering = ["start_date"]
@@ -77,7 +77,7 @@ class CourseQuestion(models.Model):
   course = models.ForeignKey(Course, verbose_name='course', on_delete=models.CASCADE)
   question = models.TextField(max_length=1000)
   is_answered = models.BooleanField(default=False)
-  start_date = models.DateTimeField(default=datetime.datetime.now())
+  start_date = models.DateTimeField(default=datetime.datetime.now)
   
   class Meta:
     ordering = ["start_date"]

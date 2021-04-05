@@ -288,3 +288,12 @@ def question_delete(request, course_id, qus_id):
 def question_answer(request, course_id, qus_id):
   CourseQuestion.objects.filter(pk=qus_id).update(is_answered=1)
   return HttpResponseRedirect(reverse('course-post-list', kwargs={'pk': course_id}))
+
+
+# course delete by student
+def course_delete_by_student(request, student_id, course_id):
+  qus = CourseQuestion.objects.filter(student=student_id, course=course_id)
+  qus.delete()
+  student = RegisterStudent.objects.filter(pk=student_id, course=course_id)
+  student.delete()
+  return HttpResponseRedirect(reverse('home-page'))

@@ -7,13 +7,15 @@
   <p>{{coursespecialist.bio}}</p><br/>
   <h4>Specialist's Courses</h4><hr>
   {% for course in coursespecialist.course_set.all %}
-    <p><a href="{% url 'course-detail' course.pk %}">{{course.name}}</a></p>
+    <img src="{{ course.photo.url }}" width="30" height="30"/>
+    <a href="{% url 'course-detail' course.pk %}">{{course.name}}</a>
+    <br/><br/>
   {% endfor %}
   <hr>
   <br/>
-  {% if user.is_authenticated and user.is_superuser == 0 %}
+  <!-- {% if user.is_authenticated and user.is_superuser == 0 %}
     <a href="{% url 'home-page' %}">Back</a>
   {% else %}
     <a href="{{ request.META.HTTP_REFERER }}" >Back</a>
-  {% endif %}
+  {% endif %} -->
 {% endblock %}
