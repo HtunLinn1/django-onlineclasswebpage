@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 import datetime
 
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
+
 class CourseSpecialist(models.Model):
   """ course specialist """
   name = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, verbose_name="course specialist")

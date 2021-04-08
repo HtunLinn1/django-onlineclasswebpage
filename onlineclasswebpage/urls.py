@@ -28,5 +28,6 @@ urlpatterns = [
     + static(settings.IMAGE_URL, document_root=settings.IMAGE_ROOT)
 
 urlpatterns += [
-    path('accounts/', include('django.contrib.auth.urls')),
+    # path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('allauth.urls')),
 ]
