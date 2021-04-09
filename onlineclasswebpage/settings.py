@@ -39,12 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webpage.apps.WebpageConfig',
+    'allauth.socialaccount.providers.github',
 
     # for djnago-allauth
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
+    'bootstrap4',
 ]
 
 
